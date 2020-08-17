@@ -22,4 +22,6 @@
   integrity="sha512-ENqEDq2o2Ho8dh8tkYjoJ8m7Xvyz8f1H8OCD2ub4b3HfZAxD+TahCpJombeLtO6+E9nLRFmktCN2LcroxZj3hg=="
   crossorigin="anonymous"
 ></script>
-<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% assets "app_js" %}
+<script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
