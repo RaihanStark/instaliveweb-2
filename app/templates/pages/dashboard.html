@@ -2,6 +2,39 @@
 <div class="container-fluid">
   <div class="row">
     <!-- Column -->
+    <div class="col-lg-4 col-xlg-3 order-md-2">
+      <div class="card-group">
+        <div class="card mx-md-2">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <h2 class="m-b-0">
+                  <i class="mdi mdi-wifi text-success"></i>
+                </h2>
+                <h3 class="">{{data_stream['status']}}</h3>
+                <h6 class="card-subtitle">Status Broadcast</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Column -->
+        <!-- Column -->
+        <div class="card mx-md-2">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <h2 class="m-b-0">
+                  <i class="mdi mdi-account-multiple text-info"></i>
+                </h2>
+                <h3 id="viewers_count">0</h3>
+                <h6 class="card-subtitle">Viewers</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Column -->
     <div class="col-lg-8 col-xlg-9">
       <div class="card">
         <div class="card-body">
@@ -61,55 +94,22 @@
                 again.</small
               >
             </div>
-            <button type="button" id="startBroadcast" class="btn btn-primary" {% if data_stream['status'] == 'active' %} disabled {% endif %}>
+            <button type="button" id="startBroadcast" class="btn btn-primary mt-2 mt-md-0" {% if data_stream['status'] == 'active' %} disabled {% endif %}>
               <i class="mdi mdi-play"></i> Start Broadcast
             </button>
-            <button type="button" class="btn btn-danger" id="stopBroadcast"
+            <button type="button" class="btn btn-danger mt-2 mt-md-0" id="stopBroadcast"
             {% if data_stream['status'] != 'active' %}
               disabled='false'
             {% endif %}>
               <i class="mdi mdi-stop"></i> Stop Broadcast
             </button>
             <a href="/dashboard/refresh_key" type="submit"
-            class="btn btn-outline-danger" 
+            class="btn btn-outline-danger mt-2 mt-md-0" 
               id="refreshKey"><i class="mdi mdi-restart"></i> Restart Server</a>
         </div>
       </div>
     </div>
-    <!-- Column -->
-    <div class="col-lg-4 col-xlg-3">
-      <div class="card-group">
-        <div class="card mx-md-2">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-12">
-                <h2 class="m-b-0">
-                  <i class="mdi mdi-wifi text-success"></i>
-                </h2>
-                <h3 class="">{{data_stream['status']}}</h3>
-                <h6 class="card-subtitle">Status Broadcast</h6>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Column -->
-        <!-- Column -->
-        <div class="card mx-md-2">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-12">
-                <h2 class="m-b-0">
-                  <i class="mdi mdi-account-multiple text-info"></i>
-                </h2>
-                <h3 id="viewers_count">0</h3>
-                <h6 class="card-subtitle">Viewers</h6>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Column -->
+    
   </div>
 
 </div>
