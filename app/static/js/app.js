@@ -1,4 +1,4 @@
-var is_live_now = true;
+var is_live_now;
 
 $(document).ready(function () {
   // clipboard
@@ -6,6 +6,17 @@ $(document).ready(function () {
   clipboard.on("success", function (e) {
     alert("Copied to clipboard");
   });
+
+  // live now status
+  if ($("#live_status").text() === "active") {
+    is_live_now = true;
+  } else {
+    is_live_now = false;
+  }
+
+  if (is_live_now === true) {
+    pool_viewers();
+  }
 
   $("#startBroadcast").on("click", function () {
     $.ajax({
@@ -30,7 +41,8 @@ $(document).ready(function () {
         ).then(function () {
           window.location = "/";
         });
-        // pool_viewers();
+        pool_viewers();
+        alert("pool viewer");
       },
       error: function (response) {
         showPopupExpiredKeyError();
