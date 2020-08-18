@@ -109,7 +109,66 @@
         </div>
       </div>
     </div>
-    
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+            Quickstart Guide
+        </div>
+        <div class="card-body">
+          <div class="article-container">
+            <h2 class="card-title text-center">Getting started with InstaLiveWeb on OBS</h2>
+            <h5 class="card-text">
+              1. On OBS, click settings on the right down of your windows.
+            </h5>
+            <img class="img-thumbnail mx-auto d-block" src="{{ url_for('static', filename='img/step1.png') }}" alt="">
+
+            <h5 class="card-text mt-1">
+              2. On Stream tab, click on service dropdown and select Custom... options
+            </h5>
+            <img class="img-thumbnail mx-auto d-block" src="{{ url_for('static', filename='img/step2.png') }}" alt="">
+
+            <h5 class="card-text mt-1">
+              3. Insert <code>{{data_stream.stream_server}}</code> to server field
+            </h5>
+            <h5 class="card-text mt-1">
+              4. Insert your stream key <input type="text" class="form-control mt-2" value="{{data_stream.stream_key}}">
+            </h5>
+            <img class="img-thumbnail mx-auto d-block" src="{{ url_for('static', filename='img/step3.png') }}" alt="">
+
+            <h5 class="card-text mt-1">
+              5. <code>(OPTIONAL) </code> Set base resolution to <code>720x1080</code> to match the aspect ratio from the Instagram
+            </h5>
+            <img class="img-thumbnail mx-auto d-block" src="{{ url_for('static', filename='img/step3_opt.png') }}" alt="">
+
+            <h5 class="card-text mt-1">
+              6. Don't forget to hit <code>apply</code> and <code>close</code> the settings window
+            </h5>
+
+            <h5 class="card-text mt-1">
+              7. To starting the stream, you must click on <code>Start Streaming</code> on your obs first.
+            </h5>
+
+            <img class="img-thumbnail mx-auto d-block" src="{{ url_for('static', filename='img/step4.png') }}" alt="">
+
+            <h5 class="card-text mt-1">
+              8. After that, you can click <code>Start Broadcast</code> button in the <code>RTMP Server Information
+              </code> section on top or alternatively click on button below
+            </h5>
+            <div class="text-center">
+              <button type="button" id="startBroadcast" class="btn btn-primary mt-2 mt-md-0" {% if data_stream['status'] == 'active' %} disabled {% endif %}>
+                <i class="mdi mdi-play"></i> Start Broadcast
+              </button>
+            </div>
+            
+          </div>
+
+            
+        </div>
+      </div>
+    </div>
   </div>
 
 </div>
