@@ -18,7 +18,7 @@ $(document).ready(function () {
     pool_viewers();
   }
 
-  $("#startBroadcast").on("click", function () {
+  $(".startBroadcast").on("click", function () {
     $.ajax({
       type: "get",
       url: "/start_broadcast",

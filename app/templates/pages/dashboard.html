@@ -94,7 +94,7 @@
                 again.</small
               >
             </div>
-            <button type="button" id="startBroadcast" class="btn btn-primary mt-2 mt-md-0" {% if data_stream['status'] == 'active' %} disabled {% endif %}>
+            <button type="button" class="btn btn-primary mt-2 mt-md-0 startBroadcast" {% if data_stream['status'] == 'active' %} disabled {% endif %}>
               <i class="mdi mdi-play"></i> Start Broadcast
             </button>
             <button type="button" class="btn btn-danger mt-2 mt-md-0" id="stopBroadcast"
@@ -158,7 +158,7 @@
               </code> section on top or alternatively click on button below
             </h5>
             <div class="text-center">
-              <button type="button" id="startBroadcast" class="btn btn-primary mt-2 mt-md-0" {% if data_stream['status'] == 'active' %} disabled {% endif %}>
+              <button type="button" class="btn btn-primary mt-2 mt-md-0 startBroadcast" {% if data_stream['status'] == 'active' %} disabled {% endif %}>
                 <i class="mdi mdi-play"></i> Start Broadcast
               </button>
             </div>
