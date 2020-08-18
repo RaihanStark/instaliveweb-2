@@ -19,21 +19,21 @@ $(document).ready(function () {
         $("#msg_live").val(response.message);
         hideLoading();
 
-        Swal.fire("You're Live!", "Live Streaming is Starting...!", "success");
-
         $("#stopBroadcast").prop("disabled", false);
         $("#startBroadcast").prop("disabled", true);
         is_live_now = true;
-        // pool_viewers();
-      },
-      error: function (response) {
+
         Swal.fire(
-          "Stream Key Expired",
-          "Please re-login to regenerate the key",
-          "error"
+          "You're Live!",
+          "Live Streaming is Starting...!",
+          "success"
         ).then(function () {
           window.location = "/";
         });
+        // pool_viewers();
+      },
+      error: function (response) {
+        showPopupExpiredKeyError();
         hideLoading();
       },
     });
@@ -51,37 +51,41 @@ $(document).ready(function () {
         $("#msg_live").val(response.message);
         hideLoading();
 
-        Swal.fire("You're Off!", "Live Streaming is Stopping...!", "success");
-
         $("#stopBroadcast").prop("disabled", true);
         $("#startBroadcast").prop("disabled", false);
 
         is_live_now = false;
+
+        Swal.fire(
+          "You're Off!",
+          "Live Streaming is Stopping...!",
+          "success"
+        ).then(function () {
+          window.location = "/";
+        });
       },
       error: function (response) {
-        Swal.fire(
-          "Stream Key Expired",
-          "Please re-login for refreshing the key",
-          "error"
-        );
+        showPopupExpiredKeyError();
         hideLoading();
       },
     });
   });
 });
 
+function showPopupExpiredKeyError() {
+  Swal.fire(
+    "Streamkey is already used",
+    "Restart the server to create a new stream key",
+    "error"
+  );
+}
+
 function showLoading() {
-  $("#dashboard_action").LoadingOverlay("show", {
-    background: "rgba(0, 0, 0, 0.5)",
-    imageColor: "#fff",
-  });
+  $(".preloader").show();
 }
 
 function hideLoading() {
-  $("#dashboard_action").LoadingOverlay("hide", {
-    background: "rgba(0, 0, 0, 0.5)",
-    imageColor: "#fff",
-  });
+  $(".preloader").fadeOut();
 }
 
 function pool_viewers() {
