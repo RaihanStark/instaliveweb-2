@@ -20,7 +20,7 @@ def stop_broadcast():
     return stop
 
 def get_viewers():
-    ig = fromPickle()
-    ig.login(force=True)
+    ig = InstaLiveCLI(auth=session['settings'])
+    print("> Getting Viewers")
     user, id = ig.get_viewer_list()
     return user

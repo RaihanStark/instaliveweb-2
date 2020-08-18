@@ -1,17 +1,66 @@
 <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+<meta charset="utf-8" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no"
+/>
+<link
+  rel="shortcut icon"
+  href="{{ url_for('static', filename='img/instagram_favicon.png') }}"
+  type="image/png"
+/>
 
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.css" integrity="sha512-hAFMASi3RewTdcR5m7meVmbFAwEu+2t9oXGrckvHgW5ozmKpk7AIfOM9Y/DfdKvfVMTZB6cwXpCBPeIyaCqT2Q==" crossorigin="anonymous" />
+<!-- Bootstrap CSS -->
+<link
+  rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+  integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+  crossorigin="anonymous"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.css"
+  integrity="sha512-hAFMASi3RewTdcR5m7meVmbFAwEu+2t9oXGrckvHgW5ozmKpk7AIfOM9Y/DfdKvfVMTZB6cwXpCBPeIyaCqT2Q=="
+  crossorigin="anonymous"
+/>
 
-    <title>InstaLiveWeb</title>
+<!-- Fonts -->
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"
+/>
+
+<!-- Icons -->
+<link
+  rel="stylesheet"
+  href="//cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css"
+/>
+
+<!-- Stylesheet -->
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='scss/animate.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='scss/spinners.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='scss/style.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='scss/blue.css') }}"
+  id="theme"
+/>
+
+{% assets "app_scss" %}
+<link rel="stylesheet" href="{{ ASSET_URL }}" />
+{% endassets %}
+
+<title>InstaLiveWeb</title>

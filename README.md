@@ -1,7 +1,24 @@
 # InstaLiveWeb
 
 > InstaLiveWeb is a Python Flask webapp that create a Instagram Live and provide you a rtmp server and stream key to streaming using sofwares like OBS-Studio.
-> ![detail v0.3](detail.png)
+
+![login page v1](login.png)
+
+![dashboard v1](dashboard.png)
+
+## Features
+
+- Start and Stop Broadcast
+- Refresh Stream Key
+- Display Viewers
+
+## Upcoming Features
+
+- [ ] Display Live Comments
+- [ ] Storing and Loading Cookies
+- [ ] Proxy Support
+- [ ] Multi Accounts
+- [ ] ??? (You decide by creating an Issues)
 
 ## Installation
 
