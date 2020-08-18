@@ -42,7 +42,6 @@ $(document).ready(function () {
           window.location = "/";
         });
         pool_viewers();
-        alert("pool viewer");
       },
       error: function (response) {
         showPopupExpiredKeyError();
