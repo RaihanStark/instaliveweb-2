@@ -6,6 +6,20 @@
 
 ![dashboard v1](dashboard.png)
 
+## Features
+
+- Start and Stop Broadcast
+- Refresh Stream Key
+- Display Viewers
+
+## Upcoming Features
+
+- [ ] Display Live Comments
+- [ ] Storing and Loading Cookies
+- [ ] Proxy Support
+- [ ] Multi Accounts
+- [ ] ??? (You decide by creating an Issues)
+
 ## Installation
 
 #### > Clone this repo
