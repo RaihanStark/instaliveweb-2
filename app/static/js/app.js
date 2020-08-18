@@ -16,6 +16,7 @@ $(document).ready(function () {
 
   if (is_live_now === true) {
     pool_viewers();
+    pool_comments();
   }
 
   $(".startBroadcast").on("click", function () {
@@ -110,6 +111,36 @@ function pool_viewers() {
     complete: function () {
       if (is_live_now) {
         setTimeout(pool_viewers, 10000);
+      }
+    },
+  });
+}
+
+function pool_comments() {
+  $.ajax({
+    type: "GET",
+    url: "/v1/live/comments",
+    dataType: "json",
+    success: function (response) {
+      console.log(response);
+      $(".chat-list").empty();
+
+      const reversed_comments = response.comments.reverse();
+      reversed_comments.forEach((e) => {
+        $(".chat-list").append(
+          `
+        <li>
+          <div class="chat-content ">
+            <h5>${e.user.username}</h5>
+            <div class="box bg-light-info">${e.text}</div>
+          </div>
+        </li>`
+        );
+      });
+    },
+    complete: function () {
+      if (is_live_now) {
+        setTimeout(pool_comments, 1000);
       }
     },
   });
