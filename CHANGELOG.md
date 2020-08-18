@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fix Restart Server Button clickable when brroadcast is running
+- Fix Restart Server Button clickable when broadcast is running
 
 ## [0.3.0] - 2020-07-28
 
