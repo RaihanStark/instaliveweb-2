@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2019-08-19
+
 ### Added
 
 - Add Comments Section
@@ -64,7 +66,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Start Broadcast
 - Stop Broadcast
 
-[unreleased]: https://github.com/RaihanStark/instaliveweb/compare/v1.0.0...master
-[1.0.0]: https://github.com/RaihanStark/instaliveweb/compare/v1.0.0...v0.3
-[0.3.0]: https://github.com/RaihanStark/instaliveweb/compare/v0.2...v0.3
+[unreleased]: https://github.com/RaihanStark/instaliveweb/compare/master
+[1.2.0]: https://github.com/RaihanStark/instaliveweb/releases/tag/v1.2.0
+[1.0.0]: https://github.com/RaihanStark/instaliveweb/releases/tag/v1.0.0
+[0.3.0]: https://github.com/RaihanStark/instaliveweb/releases/tag/v0.2
 [0.2.0]: https://github.com/RaihanStark/instaliveweb/releases/tag/v0.2
