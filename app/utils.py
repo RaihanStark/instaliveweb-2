@@ -24,3 +24,13 @@ def get_viewers():
     print("> Getting Viewers")
     user, id = ig.get_viewer_list()
     return user
+
+def get_comments():
+    ig = InstaLiveCLI(auth=session['settings'])
+    print("> Getting Comments")
+    return ig.get_comments()
+
+def send_comments(text):
+    ig = InstaLiveCLI(auth=session['settings'])
+    print("> Sending Comments :"+text)
+    return ig.send_comment(text)

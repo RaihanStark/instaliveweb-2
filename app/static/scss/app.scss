@@ -16,6 +16,24 @@
   text-transform: capitalize;
 }
 
+.chat-list {
+  height: 13.6em;
+  overflow: auto;
+
+  li {
+    margin: 0;
+  }
+
+  .chat-content {
+    h5 {
+      font-size: 0.9em;
+      margin: 0;
+    }
+    width: calc(100% - 10px) !important;
+    font-size: 0.8em;
+  }
+}
+
 // Extra small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
   .article-container {

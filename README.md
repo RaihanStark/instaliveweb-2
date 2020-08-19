@@ -11,10 +11,10 @@
 - Start and Stop Broadcast
 - Refresh Stream Key
 - Display Viewers
+- Display Live Comments
 
 ## Upcoming Features
 
-- [ ] Display Live Comments
 - [ ] Storing and Loading Cookies
 - [ ] Proxy Support
 - [ ] Multi Accounts
