@@ -15,5 +15,4 @@ six==1.15.0
 urllib3==1.25.10
 webassets==2.0
 Werkzeug==1.0.1
-instalivecli
 gunicorn
