@@ -82,6 +82,21 @@ $(document).ready(function () {
       },
     });
   });
+
+  $("#sendMessage").on("click", function () {
+    let message = $("#text_message").val();
+    if (message.length >= 1) {
+      $(this).attr("disabled", true);
+      $.ajax({
+        type: "GET",
+        url: "/v1/live/comments/" + message,
+        success: function (response) {
+          $("#text_message").val("");
+          $("#sendMessage").attr("disabled", false);
+        },
+      });
+    }
+  });
 });
 
 function showPopupExpiredKeyError() {
