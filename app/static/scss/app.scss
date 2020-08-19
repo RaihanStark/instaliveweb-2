@@ -16,6 +16,15 @@
   text-transform: capitalize;
 }
 
+.card-header-action {
+  display: flex;
+  justify-content: space-between;
+
+  span {
+    align-self: center;
+  }
+}
+
 .chat-list {
   height: 13.6em;
   overflow: auto;
