@@ -2,7 +2,7 @@ import os
 
 class Config:
 
-    VERSION = '1.0.0'
+    VERSION = '1.2.0'
 
     if os.environ.get('SECRET_KEY'):
         SECRET_KEY = os.environ.get('SECRET_KEY')

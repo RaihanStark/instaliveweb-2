@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add Comments Section
+- Display Live Comments
+- Send Comments
+
 ### Fixed
 
 - Start Broadcast Button on quickstart not working
