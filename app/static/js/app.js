@@ -1,5 +1,5 @@
-var is_live_now;
-
+let is_live_now;
+let currentComments = [];
 $(document).ready(function () {
   // clipboard
   var clipboard = new ClipboardJS(".btn");
@@ -138,28 +138,29 @@ function pool_comments() {
     dataType: "json",
     success: function (response) {
       console.log(response);
-      $(".chat-list").empty();
 
-      const reversed_comments = response.comments.reverse();
-      if (reversed_comments.length === 0) {
-        $(".chat-list").append(`
-        <li>
-              No recent comments
-            </li>
-        `);
-      } else {
-        reversed_comments.forEach((e) => {
-          $(".chat-list").append(
-            `
-          <li>
-            <div class="chat-content ">
-              <h5>${e.user.username}</h5>
-              <div class="box bg-light-info">${e.text}</div>
-            </div>
-          </li>`
-          );
-        });
-      }
+      const new_comments = response.comments;
+
+      // If new recent comments
+      new_comments.forEach((e) => {
+        if (currentComments.length >= 1) {
+          // Check duplicate
+          let isDuplicated = currentComments.some((currentComment) => {
+            return currentComment.pk == e.pk;
+          });
+          if (isDuplicated === false) {
+            currentComments.push(e);
+            appendCommentsToChat(e);
+
+            scrollToBottomChat();
+          }
+        } else {
+          // Append to variable
+          $(".chat-list").empty();
+          currentComments.push(e);
+          appendCommentsToChat(e);
+        }
+      });
     },
     complete: function () {
       if (is_live_now) {
@@ -167,4 +168,24 @@ function pool_comments() {
       }
     },
   });
+}
+
+function scrollToBottomChat() {
+  $(".chat-list").scrollTop($(".chat-list")[0].scrollHeight);
+}
+
+function getScrollPositionInteger() {
+  return parseInt($(".chat-list").scrollTop());
+}
+
+function appendCommentsToChat(e) {
+  return $(".chat-list").append(
+    `
+      <li>
+        <div class="chat-content ">
+          <h5>${e.user.username}</h5>
+          <div class="box bg-light-info">${e.text}</div>
+        </div>
+      </li>`
+  );
 }
