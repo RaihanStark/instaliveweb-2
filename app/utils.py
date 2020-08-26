@@ -37,9 +37,9 @@ def send_comments(text):
 
 def toggle_mute_comments(mute):
     ig = InstaLiveCLI(auth=session['settings'])
-    if mute == True:
-        print("> Mute Comments")
-        ig.mute_comments()
-    else:
+    if mute:
         print("> Unmute Comments")
-        ig.unmute_comment()
+        return ig.unmute_comment()
+    else:
+        print("> Mute Comments")
+        return ig.mute_comments()

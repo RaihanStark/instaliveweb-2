@@ -1,5 +1,6 @@
 let is_live_now;
 let currentComments = [];
+let is_muted;
 $(document).ready(function () {
   // clipboard
   var clipboard = new ClipboardJS(".btn");
@@ -97,6 +98,30 @@ $(document).ready(function () {
       });
     }
   });
+
+  $(".toggleMute").on("click", function () {
+    // Convert data-muted string to javascript boolean
+    is_muted = $(".mute-comments").attr("data-muted") == "true";
+
+    $(".toggleMute").prop("disabled", true);
+
+    // Sending Mute function Ajax
+    $.ajax({
+      type: "POST",
+      url: "v1/live/mute",
+      contentType: "application/json",
+      data: JSON.stringify({
+        muted: is_muted,
+      }),
+      dataType: "json",
+      success: function (response) {
+        $(".mute-comments").attr("data-muted", !is_muted);
+        $(".toggleMute").prop("disabled", false);
+
+        window.location = "/";
+      },
+    });
+  });
 });
 
 function showPopupExpiredKeyError() {
@@ -137,33 +162,33 @@ function pool_comments() {
     url: "/v1/live/comments",
     dataType: "json",
     success: function (response) {
-      console.log(response);
+      if (response.comments) {
+        const new_comments = response.comments;
 
-      const new_comments = response.comments;
+        // If new recent comments
+        new_comments.forEach((e) => {
+          if (currentComments.length >= 1) {
+            // Check duplicate
+            let isDuplicated = currentComments.some((currentComment) => {
+              return currentComment.pk == e.pk;
+            });
+            if (isDuplicated === false) {
+              currentComments.push(e);
+              appendCommentsToChat(e);
 
-      // If new recent comments
-      new_comments.forEach((e) => {
-        if (currentComments.length >= 1) {
-          // Check duplicate
-          let isDuplicated = currentComments.some((currentComment) => {
-            return currentComment.pk == e.pk;
-          });
-          if (isDuplicated === false) {
+              scrollToBottomChat();
+            }
+          } else {
+            // Append to variable
+            $(".chat-list").empty();
             currentComments.push(e);
             appendCommentsToChat(e);
-
-            scrollToBottomChat();
           }
-        } else {
-          // Append to variable
-          $(".chat-list").empty();
-          currentComments.push(e);
-          appendCommentsToChat(e);
-        }
-      });
+        });
+      }
     },
     complete: function () {
-      if (is_live_now) {
+      if (is_live_now && !is_muted) {
         setTimeout(pool_comments, 1000);
       }
     },
