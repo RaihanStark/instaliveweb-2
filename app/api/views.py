@@ -26,3 +26,14 @@ def send_comment_view(msg):
     return {
         'commentSent':str(send_comment),
         },200
+
+
+@api.route('/live/mute')
+def muted_comments():
+    print(request.json)
+    # send_comment = toggle_mute_comments()
+    return {
+        'commentSent':str(
+            'tes'
+        ),
+        },200

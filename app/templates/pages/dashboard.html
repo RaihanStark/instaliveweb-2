@@ -37,13 +37,16 @@
       <div class="card">
         <div class="card-header card-header-action">
           <span>Live Comments</span>
-          <div class="btn-group dropleft">
-            <button type="button" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="ti-settings"></i>
-          </button>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Mute Comments</a>
-            </div>
+          <div class="mute-comments" data-muted={{is_muted}}>
+            {% if is_muted %}
+            <button type="button" class="btn btn-danger toggle_mute" data-toggle="tooltip" data-placement="top" title="Unmute Comments">
+              <i class="mdi mdi-keyboard"></i>
+            </button>
+            {% else %}
+            <button type="button" class="btn btn-danger toggle_mute" data-toggle="tooltip" data-placement="top" title="Mute Comments">
+              <i class="mdi mdi-keyboard-off"></i>
+            </button>
+            {% endif %}
           </div>
           
             

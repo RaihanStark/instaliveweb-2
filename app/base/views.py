@@ -27,7 +27,10 @@ def info_route():
     live = InstaLiveCLI(auth=session['settings'])
     session['settings']['data_stream']['status'] = live.get_broadcast_status()
     
-    return render_template('pages/dashboard.html',data_stream=session['settings']['data_stream'])
+    return render_template(
+        'pages/dashboard.html',
+        data_stream=session['settings']['data_stream'],
+        is_muted=session['comments_muted'])
 
 @base.route('/dashboard/refresh_key')
 def refresh_handle():
@@ -58,6 +61,9 @@ def login_handle():
 
         print(live.settings)
         print('> Saving Cookies')
+
+        # Init Session
+        session['comments_muted'] = False
         session['settings'] = live.settings
 
         return redirect(url_for('base.info_route'))
