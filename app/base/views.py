@@ -2,18 +2,20 @@ from flask import Blueprint, render_template, redirect, url_for, request, sessio
 from InstaLiveCLI import InstaLiveCLI
 import json
 from app.utils import start_broadcast, stop_broadcast
+from .forms import LoginUserForm
+
 base = Blueprint('base', __name__)
 
 @base.route('/')
 def login_route():
-
+    form = LoginUserForm()
     try:
         settings = session['settings']
         print('got settings')
         return redirect(url_for('base.info_route'))
 
     except:
-        return render_template('pages/login.html')
+        return render_template('pages/login.html', form=form)
 
 @base.route('/dashboard')
 def info_route():
