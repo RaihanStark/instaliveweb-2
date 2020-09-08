@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+### Fixed
+
+- Mute Comments working when live is not started
+
 ## [1.4.0] - 2019-08-31
 
 ### Added

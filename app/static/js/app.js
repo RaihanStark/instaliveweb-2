@@ -18,6 +18,11 @@ $(document).ready(function () {
   if (is_live_now === true) {
     pool_viewers();
     pool_comments();
+
+    // Enable Buttons
+    $(".toggleMute").prop("disabled", false);
+    $("#sendMessage").prop("disabled", false);
+    $("#text_message").prop("disabled", false);
   }
 
   $(".startBroadcast").on("click", function () {
@@ -100,27 +105,29 @@ $(document).ready(function () {
   });
 
   $(".toggleMute").on("click", function () {
-    // Convert data-muted string to javascript boolean
-    is_muted = $(".mute-comments").attr("data-muted") == "true";
+    if (is_live_now) {
+      // Convert data-muted string to javascript boolean
+      is_muted = $(".mute-comments").attr("data-muted") == "true";
 
-    $(".toggleMute").prop("disabled", true);
+      $(".toggleMute").prop("disabled", true);
 
-    // Sending Mute function Ajax
-    $.ajax({
-      type: "POST",
-      url: "v1/live/mute",
-      contentType: "application/json",
-      data: JSON.stringify({
-        muted: is_muted,
-      }),
-      dataType: "json",
-      success: function (response) {
-        $(".mute-comments").attr("data-muted", !is_muted);
-        $(".toggleMute").prop("disabled", false);
+      // Sending Mute function Ajax
+      $.ajax({
+        type: "POST",
+        url: "v1/live/mute",
+        contentType: "application/json",
+        data: JSON.stringify({
+          muted: is_muted,
+        }),
+        dataType: "json",
+        success: function (response) {
+          $(".mute-comments").attr("data-muted", !is_muted);
+          $(".toggleMute").prop("disabled", false);
 
-        window.location = "/";
-      },
-    });
+          window.location = "/";
+        },
+      });
+    }
   });
 });
 

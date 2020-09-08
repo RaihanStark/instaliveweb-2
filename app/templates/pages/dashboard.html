@@ -39,11 +39,11 @@
           <span>Live Comments</span>
           <div class="mute-comments" data-muted={{is_muted|lower}}>
             {% if is_muted %}
-            <button type="button" class="btn btn-warning toggleMute" data-toggle="tooltip" data-placement="top" title="Unmute Comments">
+            <button type="button" class="btn btn-warning toggleMute" data-toggle="tooltip" data-placement="top" title="Unmute Comments" disabled>
               <i class="mdi mdi-keyboard"></i>
             </button>
             {% else %}
-            <button type="button" class="btn btn-danger toggleMute" data-toggle="tooltip" data-placement="top" title="Mute Comments">
+            <button type="button" class="btn btn-danger toggleMute" data-toggle="tooltip" data-placement="top" title="Mute Comments" disabled>
               <i class="mdi mdi-keyboard-off"></i>
             </button>
             {% endif %}
@@ -62,8 +62,8 @@
       </div>
       <div class="card-body b-t">
         <div class="msg-box">
-                <textarea id="text_message" placeholder="Type your message here" class="form-control b-0"></textarea>
-                <button type="button" id ="sendMessage" class="btn btn-info btn-circle btn-lg"><i class="mdi mdi-send"></i> </button>
+                <textarea id="text_message" placeholder="Type your message here" class="form-control b-0" disabled></textarea>
+                <button type="button" id ="sendMessage" class="btn btn-info btn-circle btn-lg" disabled><i class="mdi mdi-send"></i> </button>
         </div>
     </div>
       </div>
