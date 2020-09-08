@@ -1,6 +1,6 @@
 let is_live_now;
 let currentComments = [];
-let is_muted;
+let is_muted = $(".mute-comments").attr("data-muted") == "true";
 $(document).ready(function () {
   // clipboard
   var clipboard = new ClipboardJS(".btn");
@@ -21,6 +21,15 @@ $(document).ready(function () {
 
     // Enable Buttons
     $(".toggleMute").prop("disabled", false);
+    $("#sendMessage").prop("disabled", false);
+    $("#text_message").prop("disabled", false);
+  }
+
+  if (is_muted) {
+    $("#sendMessage").prop("disabled", true);
+    $("#text_message").prop("disabled", true);
+    $("#text_message").attr("placeholder", "Comments Off");
+  } else {
     $("#sendMessage").prop("disabled", false);
     $("#text_message").prop("disabled", false);
   }
