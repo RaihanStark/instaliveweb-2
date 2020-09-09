@@ -8,6 +8,8 @@ $(document).ready(function () {
     alert("Copied to clipboard");
   });
 
+  // Verification Code
+
   // live now status
   if ($("#live_status").text() === "active") {
     is_live_now = true;

@@ -75,6 +75,11 @@ def login_handle():
 
     return redirect(url_for('base.login_route'))
 
+@base.route('/verification')
+def verification_sms_view():
+    form = LoginUserForm()
+    return render_template('pages/verification.html', form=form)
+
 @base.route('/start_broadcast')
 def start():
     if start_broadcast():
