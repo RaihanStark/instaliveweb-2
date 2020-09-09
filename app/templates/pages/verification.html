@@ -45,9 +45,14 @@
       console.log(e);
 
       if (value != "123456") {
-        $(".pincode-input-error").html(
-          "Verification Invalid: Please enter correct code"
-        );
+        $(".pincode-input-text").attr("disabled", true);
+        setTimeout(() => {
+          $(".pincode-input-error").html(
+            "Verification Invalid: Please enter correct code"
+          );
+
+          $(".pincode-input-text").attr("disabled", false);
+        }, 1500);
       }
     },
   });
