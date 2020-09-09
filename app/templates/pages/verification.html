@@ -34,13 +34,21 @@
   $("#code").pincodeInput({
     inputs: 6,
     hideDigits: true,
+    change: function (input, value, inputnumber) {
+      // console.log("clear");
+      if (inputnumber <= 5) {
+        $(".pincode-input-error").html("");
+      }
+    },
     complete: function (value, e, errorElement) {
       console.log(value);
       console.log(e);
 
-      $(".pincode-input-error").html(
-        "Verification Invalid: Please enter correct code"
-      );
+      if (value != "123456") {
+        $(".pincode-input-error").html(
+          "Verification Invalid: Please enter correct code"
+        );
+      }
     },
   });
 </script>
