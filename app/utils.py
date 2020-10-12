@@ -43,3 +43,8 @@ def toggle_mute_comments(mute):
     else:
         print("> Mute Comments")
         return ig.mute_comments()
+
+def send_verification(code):
+    ig = InstaLiveCLI(auth=session['settings'])
+    print(session['settings'])
+    return ig.two_factor(code)

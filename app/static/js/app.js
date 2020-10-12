@@ -1,6 +1,7 @@
 let is_live_now;
 let currentComments = [];
 let is_muted = $(".mute-comments").attr("data-muted") == "true";
+
 $(document).ready(function () {
   // clipboard
   var clipboard = new ClipboardJS(".btn");
@@ -10,7 +11,6 @@ $(document).ready(function () {
 
   // Verification Code
 
-  // live now status
   if ($("#live_status").text() === "active") {
     is_live_now = true;
   } else {
@@ -18,6 +18,7 @@ $(document).ready(function () {
   }
 
   if (is_live_now === true) {
+    // Starting HTTP Pool
     pool_viewers();
     pool_comments();
 
@@ -28,10 +29,12 @@ $(document).ready(function () {
   }
 
   if (is_muted) {
+    // Disabled Button and Message Text
     $("#sendMessage").prop("disabled", true);
     $("#text_message").prop("disabled", true);
     $("#text_message").attr("placeholder", "Comments Off");
   } else {
+    // Enable Button
     $("#sendMessage").prop("disabled", false);
     $("#text_message").prop("disabled", false);
   }

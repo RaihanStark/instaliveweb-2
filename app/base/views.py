@@ -6,6 +6,8 @@ from .forms import LoginUserForm
 
 base = Blueprint('base', __name__)
 
+login = None
+
 @base.route('/')
 def login_route():
     form = LoginUserForm()
@@ -19,7 +21,6 @@ def login_route():
 
 @base.route('/dashboard')
 def info_route():
-
     try:
         settings = session['settings']
     except:
@@ -51,26 +52,27 @@ def logout_handle():
 
 @base.route('/login', methods=['POST'])
 def login_handle():
-    live = InstaLiveCLI(username=request.form['username'],password=request.form['password'])
+    global login
+    login = InstaLiveCLI(username=request.form['username'],password=request.form['password'])
     print('> Login to Instagram Server')
-    login_status = live.login()
-
+    login_status = login.login()
+    session['comments_muted'] = False
     if login_status:
         print('- Login Success')
 
         print('> Creating Broadcast')
-        live.create_broadcast()
+        login.create_broadcast()
 
-        print(live.settings)
         print('> Saving Cookies')
 
         # Init Session
-        session['comments_muted'] = False
-        session['settings'] = live.settings
+        session['settings'] = login.settings
 
         return redirect(url_for('base.info_route'))
 
-    
+    if login.two_factor_required:
+        session['settings'] = login.settings
+        return redirect(url_for('base.verification_sms_view'))
     flash('Username or Password incorrect!')
 
     return redirect(url_for('base.login_route'))
@@ -79,6 +81,23 @@ def login_handle():
 def verification_sms_view():
     form = LoginUserForm()
     return render_template('pages/verification.html', form=form)
+
+@base.route('/verification/send', methods=['POST'])
+def verif_vode():
+    code = request.get_json()['code']
+    result = login.two_factor(code)
+
+    if result:
+        login.isLoggedIn = True
+        
+
+        print('> Creating Broadcast')
+        login.create_broadcast()
+
+        session['settings'] = login.settings
+    return {
+        'verified': result,
+        },200
 
 @base.route('/start_broadcast')
 def start():

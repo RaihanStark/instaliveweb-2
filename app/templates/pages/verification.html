@@ -44,16 +44,29 @@
       console.log(value);
       console.log(e);
 
-      if (value != "123456") {
-        $(".pincode-input-text").attr("disabled", true);
-        setTimeout(() => {
-          $(".pincode-input-error").html(
-            "Verification Invalid: Please enter correct code"
-          );
-
-          $(".pincode-input-text").attr("disabled", false);
-        }, 1500);
-      }
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/verification/send",
+        data: JSON.stringify({
+          code: value,
+        }),
+        dataType: "json",
+        beforeSend: function (xhr) {
+          $(".pincode-input-text").attr("disabled", true);
+        },
+        success: function (response) {
+          console.log(response);
+          if (response.verified) {
+            window.location = "/";
+          } else {
+            $(".pincode-input-error").html(
+              "Verification Invalid: Please enter correct code"
+            );
+            $(".pincode-input-text").attr("disabled", false);
+          }
+        },
+      });
     },
   });
 </script>

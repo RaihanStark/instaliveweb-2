@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session, flash
 from InstaLiveCLI import InstaLiveCLI
 import json
-from app.utils import start_broadcast, stop_broadcast, get_viewers, get_comments, send_comments, toggle_mute_comments
+from app.utils import start_broadcast, stop_broadcast, get_viewers, get_comments, send_comments, toggle_mute_comments, send_verification
 
 api = Blueprint('api', __name__)
 
