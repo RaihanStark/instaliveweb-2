@@ -14,7 +14,7 @@ class Config:
         SECRET_KEY = 'SECRET_KEY_ENV_VAR_NOT_SET'
         print('SECRET KEY ENV VAR NOT SET! SHOULD NOT SEE IN PRODUCTION')
 
-    RETINAD_API_URL = "https://my-json-server.typicode.com/raihanstark/demo/login"
+    RETINAD_API_URL = "https://www.retinad.com/api/account/login"
     RETINAD_API_SKIP = False
 class DevelopmentConfig(Config):
 

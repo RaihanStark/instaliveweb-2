@@ -110,8 +110,8 @@ def verif_vode():
         print('> Creating Broadcast')
         CurrentInstaLive.create_broadcast()
 
-        # session['settings'] = login.settings
-        # CurrentInstaLive.load_settings()
+        session['settings'] = CurrentInstaLive.settings
+        CurrentInstaLive.load_settings()
     return {
         'verified': result,
         },200

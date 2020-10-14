@@ -67,8 +67,15 @@ class CurrentInstaSession:
 
 
 def verified_retinad(username):
-    response = requests.get(Config.RETINAD_API_URL).json()
-    return response['username'] == username or Config.RETINAD_API_SKIP
+    response = requests.post(
+        Config.RETINAD_API_URL, 
+        headers={
+            'Accept':'application/json'
+        },json={
+            'ig_account':username
+        }).json()
+    print(response)
+    return response['boolean'] or Config.RETINAD_API_SKIP
 
 def get_session_setting():
     return session['settings']
