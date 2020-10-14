@@ -26,7 +26,6 @@ def info_route():
         return redirect(url_for('base.login_route'))
 
     print('> Update Broadcast Status')
-
     session['settings']['data_stream']['status'] = CurrentInstaLive.get_broadcast_status()
     
     return render_template(
@@ -62,6 +61,7 @@ def login_handle():
             print('> Saving Cookies')
 
             # Init Session
+
             # session['settings'] = CurrentInstaLive.settings
             # CurrentInstaLive.load_settings()
 
@@ -109,7 +109,6 @@ def verif_vode():
 
         session['settings'] = CurrentInstaLive.settings
         # CurrentInstaLive.load_settings()
-        
     return {
         'verified': result,
         },200
