@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session, flash
 from InstaLiveCLI import InstaLiveCLI
 import json
-from app.utils import start_broadcast, stop_broadcast, verified_retinad
+from app.utils import verified_retinad
+from app.api.views import CurrentInstaLive
 from .forms import LoginUserForm
 
 base = Blueprint('base', __name__)
@@ -69,6 +70,7 @@ def login_handle():
             # Init Session
             session['settings'] = login.settings
 
+            CurrentInstaLive.load_settings()
             return redirect(url_for('base.info_route'))
 
         if login.two_factor_required:
@@ -105,14 +107,14 @@ def verif_vode():
 
 @base.route('/start_broadcast')
 def start():
-    if start_broadcast():
+    if CurrentInstaLive.start_broadcast():
         return {"status":"running","message":"You're live!!"}, 200
     else:
         return {"status":"error","message":"You're not live, start broadcast after you set the server key"}, 403
 
 @base.route('/stop_broadcast')
 def stop():
-    if stop_broadcast():
+    if CurrentInstaLive.stop_broadcast():
         return {"status":"stopped","message":"The broadcast is ended"}, 200
     else:
         return {"status":"error","message":"something wrong here"}, 403
