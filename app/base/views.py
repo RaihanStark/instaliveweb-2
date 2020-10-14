@@ -99,8 +99,13 @@ def verification_sms_view():
 @base.route('/verification/send', methods=['POST'])
 def verif_vode():
     code = request.get_json()['code']
-    result = CurrentInstaLive.send_verification(code)
 
+    try:
+        result = CurrentInstaLive.send_verification(code)
+    except AttributeError:
+        flash('Verification Failed, Please Log In')
+        session.pop('settings',None)
+        return redirect(url_for('base.login_route'))
     if result:
         CurrentInstaLive.ig.isLoggedIn = True
         print(CurrentInstaLive.settings)
