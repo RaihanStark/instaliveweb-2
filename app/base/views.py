@@ -80,7 +80,7 @@ def login_handle():
 
         return redirect(url_for('base.login_route'))
     
-    flash('Username is not valid from RETINAD server!')
+    flash('Username is not found in RETINAD server!')
     return redirect(url_for('base.login_route'))
 
 @base.route('/verification')
