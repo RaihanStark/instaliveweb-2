@@ -14,21 +14,24 @@ def login_route():
     form = LoginUserForm()
     try:
         settings = get_session_setting()
-        return redirect(url_for('base.info_route'))
+        if settings['isLoggedIn'] == True:
+            return redirect(url_for('base.info_route'))
     except:
-        return render_template('pages/login.html', form=form)
+        pass
+    return render_template('pages/login.html', form=form)
 
 @base.route('/dashboard')
 def info_route():
     try:
         settings = get_session_setting()
+        if settings['isLoggedIn'] == False:
+            return redirect(url_for('base.login_route'))
     except:
         return redirect(url_for('base.login_route'))
 
     print('> Update Broadcast Status')
 
     print(settings)
-
     session['settings']['data_stream']['status'] = CurrentInstaLive.get_broadcast_status()
     
     return render_template(
@@ -91,7 +94,8 @@ def verification_sms_view():
         if settings['isLoggedIn'] == True:
             return redirect(url_for('base.info_route'))
     except:
-        return render_template('pages/verification.html')
+        pass
+    return render_template('pages/verification.html')
 
 @base.route('/verification/send', methods=['POST'])
 def verif_vode():

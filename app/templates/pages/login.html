@@ -37,4 +37,10 @@
     </div>
   </div>
 </div>
-{% endblock content %}
+{% endblock content %} {% block custom_js %}
+<script>
+  $("form").submit(function () {
+    $(this).children("input[type=submit]").prop("disabled", true);
+  });
+</script>
+{% endblock custom_js %}

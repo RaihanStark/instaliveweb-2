@@ -51,9 +51,10 @@
         dataType: "json",
         beforeSend: function (xhr) {
           $(".pincode-input-text").attr("disabled", true);
+          showLoading();
         },
         success: function (response) {
-          console.log(response);
+          hideLoading();
           if (response.verified) {
             window.location = "/";
           } else {
