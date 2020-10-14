@@ -11,8 +11,7 @@ base = Blueprint('base', __name__)
 def login_route():
     form = LoginUserForm()
     try:
-        settings = get_session_setting()
-        if settings['isLoggedIn'] == True:
+        if CurrentInstaLive.isLoggedIn == True:
             return redirect(url_for('base.info_route'))
     except:
         pass
@@ -21,15 +20,13 @@ def login_route():
 @base.route('/dashboard')
 def info_route():
     try:
-        settings = get_session_setting()
-        if settings['isLoggedIn'] == False:
+        if CurrentInstaLive.isLoggedIn == False:
             return redirect(url_for('base.login_route'))
     except:
         return redirect(url_for('base.login_route'))
 
     print('> Update Broadcast Status')
 
-    print(settings)
     session['settings']['data_stream']['status'] = CurrentInstaLive.get_broadcast_status()
     
     return render_template(
@@ -105,13 +102,14 @@ def verif_vode():
     result = CurrentInstaLive.send_verification(code)
 
     if result:
+        CurrentInstaLive.ig.isLoggedIn = True
+        print(CurrentInstaLive.settings)
         print('> Creating Broadcast')
         CurrentInstaLive.create_broadcast()
 
-        # session['settings'] = CurrentInstaLive.settings
+        session['settings'] = CurrentInstaLive.settings
         # CurrentInstaLive.load_settings()
-        print(CurrentInstaLive.settings)
-        CurrentInstaLive.ig.isLoggedIn = True
+        
     return {
         'verified': result,
         },200
