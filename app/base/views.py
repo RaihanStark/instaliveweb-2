@@ -27,6 +27,8 @@ def info_route():
 
     print('> Update Broadcast Status')
 
+    print(settings)
+
     session['settings']['data_stream']['status'] = CurrentInstaLive.get_broadcast_status()
     
     return render_template(
@@ -60,16 +62,16 @@ def login_handle():
         session['comments_muted'] = False
         if login_status:
             print('- Login Success')
-
-            print('> Creating Broadcast')
-            login.create_broadcast()
-
             print('> Saving Cookies')
 
             # Init Session
             session['settings'] = login.settings
-
             CurrentInstaLive.load_settings()
+
+            print('> Creating Broadcast')
+            login.create_broadcast()
+
+            
             return redirect(url_for('base.info_route'))
 
         if login.two_factor_required:
@@ -84,8 +86,12 @@ def login_handle():
 
 @base.route('/verification')
 def verification_sms_view():
-    form = LoginUserForm()
-    return render_template('pages/verification.html', form=form)
+    try:
+        settings = get_session_setting()
+        if settings['isLoggedIn'] == True:
+            return redirect(url_for('base.info_route'))
+    except:
+        return render_template('pages/verification.html')
 
 @base.route('/verification/send', methods=['POST'])
 def verif_vode():
