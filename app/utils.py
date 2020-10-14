@@ -65,6 +65,9 @@ class CurrentInstaSession:
     def send_verification(self,code):
         return self.ig.two_factor(code)
 
+    @property
+    def isLoggedIn(self):
+        return self.ig.isLoggedIn
 
 def verified_retinad(username):
     response = requests.post(

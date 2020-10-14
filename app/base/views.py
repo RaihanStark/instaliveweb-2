@@ -65,8 +65,8 @@ def login_handle():
             print('> Saving Cookies')
 
             # Init Session
-            session['settings'] = CurrentInstaLive.settings
-            CurrentInstaLive.load_settings()
+            # session['settings'] = CurrentInstaLive.settings
+            # CurrentInstaLive.load_settings()
 
             print('> Creating Broadcast')
             CurrentInstaLive.create_broadcast()
@@ -74,7 +74,7 @@ def login_handle():
             return redirect(url_for('base.info_route'))
 
         if CurrentInstaLive.two_factor_required:
-            session['settings'] = CurrentInstaLive.settings
+            # session['settings'] = CurrentInstaLive.settings
             return redirect(url_for('base.verification_sms_view'))
         flash('Username or Password incorrect!')
 
@@ -86,8 +86,7 @@ def login_handle():
 @base.route('/verification')
 def verification_sms_view():
     try:
-        settings = get_session_setting()
-        if settings['isLoggedIn'] == True:
+        if CurrentInstaLive.isLoggedIn == True:
             return redirect(url_for('base.info_route'))
     except:
         return redirect(url_for('base.login_route'))
@@ -106,13 +105,13 @@ def verif_vode():
     result = CurrentInstaLive.send_verification(code)
 
     if result:
-        CurrentInstaLive.ig.isLoggedIn = True
-
         print('> Creating Broadcast')
         CurrentInstaLive.create_broadcast()
 
-        session['settings'] = CurrentInstaLive.settings
-        CurrentInstaLive.load_settings()
+        # session['settings'] = CurrentInstaLive.settings
+        # CurrentInstaLive.load_settings()
+        print(CurrentInstaLive.settings)
+        CurrentInstaLive.ig.isLoggedIn = True
     return {
         'verified': result,
         },200
