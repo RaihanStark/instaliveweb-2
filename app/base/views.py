@@ -26,11 +26,14 @@ def info_route():
         return redirect(url_for('base.login_route'))
 
     print('> Update Broadcast Status')
-    session['settings']['data_stream']['status'] = CurrentInstaLive.get_broadcast_status()
+
+    settings = CurrentInstaLive.settings
+    settings['data_stream']['status'] = CurrentInstaLive.get_broadcast_status()
     
+    print(settings['data_stream'])
     return render_template(
         'pages/dashboard.html',
-        data_stream=session['settings']['data_stream'],
+        data_stream=settings['data_stream'],
         is_muted=session['comments_muted'])
 
 @base.route('/dashboard/refresh_key')
