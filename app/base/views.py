@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session, flash
 from InstaLiveCLI import InstaLiveCLI
 import json
-from app.utils import verified_retinad
+from app.utils import verified_retinad, get_session_setting
 from app.api.views import CurrentInstaLive
 from .forms import LoginUserForm
 
@@ -13,8 +13,7 @@ login = None
 def login_route():
     form = LoginUserForm()
     try:
-        settings = session['settings']
-        print('got settings')
+        settings = get_session_setting()
         return redirect(url_for('base.info_route'))
     except:
         return render_template('pages/login.html', form=form)
@@ -22,13 +21,13 @@ def login_route():
 @base.route('/dashboard')
 def info_route():
     try:
-        settings = session['settings']
+        settings = get_session_setting()
     except:
         return redirect(url_for('base.login_route'))
 
     print('> Update Broadcast Status')
-    live = InstaLiveCLI(auth=session['settings'])
-    session['settings']['data_stream']['status'] = live.get_broadcast_status()
+
+    session['settings']['data_stream']['status'] = CurrentInstaLive.get_broadcast_status()
     
     return render_template(
         'pages/dashboard.html',
@@ -38,9 +37,9 @@ def info_route():
 @base.route('/dashboard/refresh_key')
 def refresh_handle():
     print('> Refreshing Stream Key')
-    live = InstaLiveCLI(auth=session['settings'])
-    live.create_broadcast()
-    session['settings'] = live.settings
+
+    CurrentInstaLive.create_broadcast()
+    session['settings'] = CurrentInstaLive.settings
     
     return redirect(url_for('base.info_route'))
 
@@ -101,6 +100,7 @@ def verif_vode():
         login.create_broadcast()
 
         session['settings'] = login.settings
+        CurrentInstaLive.load_settings()
     return {
         'verified': result,
         },200

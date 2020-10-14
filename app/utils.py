@@ -9,8 +9,13 @@ class CurrentInstaSession:
     def __init__(self):
         self.ig = None
     
-    def load_settings():
+    def load_settings(self):
         self.ig = InstaLiveCLI(auth=session['settings'])
+
+    @property
+    def settings(self):
+        return self.ig.settings
+
     def start_broadcast(self):
         print('> Starting Broadcast')
         return self.ig.start_broadcast()
@@ -40,9 +45,18 @@ class CurrentInstaSession:
             print("> Mute Comments")
             return self.ig.mute_comments()
 
+    def get_broadcast_status(self):
+        return self.ig.get_broadcast_status()
+
+    def create_broadcast(self):
+        return self.ig.create_broadcast()
+
     def send_verification(self,code):
         return self.ig.two_factor(code)
 
 def verified_retinad(username):
     response = requests.get(Config.RETINAD_API_URL).json()
     return response['username'] == username
+
+def get_session_setting():
+    return session['settings']
