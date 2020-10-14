@@ -12,9 +12,17 @@ class CurrentInstaSession:
     def load_settings(self):
         self.ig = InstaLiveCLI(auth=session['settings'])
 
+    def login(self,username,password):
+        self.ig = InstaLiveCLI(username=username,password=password)
+        return self.ig.login()
+
     @property
     def settings(self):
         return self.ig.settings
+
+    @property
+    def two_factor_required(self):
+        return self.ig.two_factor_required
 
     def start_broadcast(self):
         print('> Starting Broadcast')
@@ -51,8 +59,12 @@ class CurrentInstaSession:
     def create_broadcast(self):
         return self.ig.create_broadcast()
 
+    def get_last_digit_phone(self):
+        return self.ig.two_factor_last_number
+
     def send_verification(self,code):
         return self.ig.two_factor(code)
+
 
 def verified_retinad(username):
     response = requests.get(Config.RETINAD_API_URL).json()

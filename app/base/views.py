@@ -7,8 +7,6 @@ from .forms import LoginUserForm
 
 base = Blueprint('base', __name__)
 
-login = None
-
 @base.route('/')
 def login_route():
     form = LoginUserForm()
@@ -58,27 +56,25 @@ def logout_handle():
 def login_handle():
     # Check to retinad first
     if verified_retinad(request.form['username']):
-        global login
-        login = InstaLiveCLI(username=request.form['username'],password=request.form['password'])
         print('> Login to Instagram Server')
-        login_status = login.login()
+        login_status = CurrentInstaLive.login(username=request.form['username'],password=request.form['password'])
+
         session['comments_muted'] = False
         if login_status:
             print('- Login Success')
             print('> Saving Cookies')
 
             # Init Session
-            session['settings'] = login.settings
+            session['settings'] = CurrentInstaLive.settings
             CurrentInstaLive.load_settings()
 
             print('> Creating Broadcast')
-            login.create_broadcast()
+            CurrentInstaLive.create_broadcast()
 
-            
             return redirect(url_for('base.info_route'))
 
-        if login.two_factor_required:
-            session['settings'] = login.settings
+        if CurrentInstaLive.two_factor_required:
+            session['settings'] = CurrentInstaLive.settings
             return redirect(url_for('base.verification_sms_view'))
         flash('Username or Password incorrect!')
 
@@ -94,23 +90,28 @@ def verification_sms_view():
         if settings['isLoggedIn'] == True:
             return redirect(url_for('base.info_route'))
     except:
-        pass
-    return render_template('pages/verification.html')
+        return redirect(url_for('base.login_route'))
+
+    try:
+        last_digit = CurrentInstaLive.get_last_digit_phone()
+    except:
+        flash('Please Log In')
+        return redirect(url_for('base.login_route'))
+    return render_template('pages/verification.html',last_digit=last_digit)
 
 @base.route('/verification/send', methods=['POST'])
 def verif_vode():
     code = request.get_json()['code']
-    result = login.two_factor(code)
+    result = CurrentInstaLive.send_verification(code)
 
     if result:
-        login.isLoggedIn = True
-        
+        CurrentInstaLive.ig.isLoggedIn = True
 
         print('> Creating Broadcast')
-        login.create_broadcast()
+        CurrentInstaLive.create_broadcast()
 
-        session['settings'] = login.settings
-        CurrentInstaLive.load_settings()
+        # session['settings'] = login.settings
+        # CurrentInstaLive.load_settings()
     return {
         'verified': result,
         },200
