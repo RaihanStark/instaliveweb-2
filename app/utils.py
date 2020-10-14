@@ -1,45 +1,81 @@
 import pickle
 from flask import session
 from InstaLiveCLI import InstaLiveCLI
+import requests
 
-def start_broadcast():
-    ig = InstaLiveCLI(auth=session['settings'])
-    print(session['settings'])
+from config import Config
 
-    print('> Starting Broadcast')
-    start = ig.start_broadcast()
-    print('- Broadcast Started',start)
-    return start
+class CurrentInstaSession:
+    def __init__(self):
+        self.ig = None
+    
+    def load_settings(self):
+        self.ig = InstaLiveCLI(auth=session['settings'])
 
-def stop_broadcast():
-    ig = InstaLiveCLI(auth=session['settings'])
-    print(session['settings'])
-    print('> Stopping Broadcast')
-    stop = ig.end_broadcast()
-    print('- Broadcast Stopped', stop)
-    return stop
+    def login(self,username,password):
+        self.ig = InstaLiveCLI(username=username,password=password)
+        return self.ig.login()
 
-def get_viewers():
-    ig = InstaLiveCLI(auth=session['settings'])
-    print("> Getting Viewers")
-    user, id = ig.get_viewer_list()
-    return user
+    @property
+    def settings(self):
+        return self.ig.settings
 
-def get_comments():
-    ig = InstaLiveCLI(auth=session['settings'])
-    print("> Getting Comments")
-    return ig.get_comments()
+    @property
+    def two_factor_required(self):
+        return self.ig.two_factor_required
 
-def send_comments(text):
-    ig = InstaLiveCLI(auth=session['settings'])
-    print("> Sending Comments :"+text)
-    return ig.send_comment(text)
+    def start_broadcast(self):
+        print('> Starting Broadcast')
+        return self.ig.start_broadcast()
 
-def toggle_mute_comments(mute):
-    ig = InstaLiveCLI(auth=session['settings'])
-    if mute:
-        print("> Unmute Comments")
-        return ig.unmute_comment()
-    else:
-        print("> Mute Comments")
-        return ig.mute_comments()
+    def stop_broadcast(self):
+        print('> Stopping Broadcast')
+        return self.ig.end_broadcast()
+    
+    def get_viewers(self):
+        print("> Getting Viewers")
+        user, id = self.ig.get_viewer_list()
+        return user
+    
+    def get_comments(self):
+        print("> Getting Comments")
+        return self.ig.get_comments()
+
+    def send_comments(self,text):
+        print("> Sending Comments :"+text)
+        return self.ig.send_comment(text)
+
+    def toggle_mute_comments(self,mute):
+        if mute:
+            print("> Unmute Comments")
+            return self.ig.unmute_comment()
+        else:
+            print("> Mute Comments")
+            return self.ig.mute_comments()
+
+    def get_broadcast_status(self):
+        return self.ig.get_broadcast_status()
+
+    def create_broadcast(self):
+        return self.ig.create_broadcast()
+
+    def get_last_digit_phone(self):
+        return self.ig.two_factor_last_number
+
+    def send_verification(self,code):
+        return self.ig.two_factor(code)
+
+
+def verified_retinad(username):
+    response = requests.post(
+        Config.RETINAD_API_URL, 
+        headers={
+            'Accept':'application/json'
+        },json={
+            'ig_account':username
+        }).json()
+    print(response)
+    return response['boolean'] or Config.RETINAD_API_SKIP
+
+def get_session_setting():
+    return session['settings']

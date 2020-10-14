@@ -17,3 +17,6 @@ webassets==2.0
 Werkzeug==1.0.1
 instalivecli
 gunicorn
+flask-login
+flask-sqlalchemy
+flask-wtf

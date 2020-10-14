@@ -1,6 +1,7 @@
 let is_live_now;
 let currentComments = [];
-let is_muted;
+let is_muted = $(".mute-comments").attr("data-muted") == "true";
+
 $(document).ready(function () {
   // clipboard
   var clipboard = new ClipboardJS(".btn");
@@ -8,7 +9,8 @@ $(document).ready(function () {
     alert("Copied to clipboard");
   });
 
-  // live now status
+  // Verification Code
+
   if ($("#live_status").text() === "active") {
     is_live_now = true;
   } else {
@@ -16,8 +18,25 @@ $(document).ready(function () {
   }
 
   if (is_live_now === true) {
+    // Starting HTTP Pool
     pool_viewers();
     pool_comments();
+
+    // Enable Buttons
+    $(".toggleMute").prop("disabled", false);
+    $("#sendMessage").prop("disabled", false);
+    $("#text_message").prop("disabled", false);
+  }
+
+  if (is_muted) {
+    // Disabled Button and Message Text
+    $("#sendMessage").prop("disabled", true);
+    $("#text_message").prop("disabled", true);
+    $("#text_message").attr("placeholder", "Comments Off");
+  } else {
+    // Enable Button
+    $("#sendMessage").prop("disabled", false);
+    $("#text_message").prop("disabled", false);
   }
 
   $(".startBroadcast").on("click", function () {
@@ -100,27 +119,29 @@ $(document).ready(function () {
   });
 
   $(".toggleMute").on("click", function () {
-    // Convert data-muted string to javascript boolean
-    is_muted = $(".mute-comments").attr("data-muted") == "true";
+    if (is_live_now) {
+      // Convert data-muted string to javascript boolean
+      is_muted = $(".mute-comments").attr("data-muted") == "true";
 
-    $(".toggleMute").prop("disabled", true);
+      $(".toggleMute").prop("disabled", true);
 
-    // Sending Mute function Ajax
-    $.ajax({
-      type: "POST",
-      url: "v1/live/mute",
-      contentType: "application/json",
-      data: JSON.stringify({
-        muted: is_muted,
-      }),
-      dataType: "json",
-      success: function (response) {
-        $(".mute-comments").attr("data-muted", !is_muted);
-        $(".toggleMute").prop("disabled", false);
+      // Sending Mute function Ajax
+      $.ajax({
+        type: "POST",
+        url: "v1/live/mute",
+        contentType: "application/json",
+        data: JSON.stringify({
+          muted: is_muted,
+        }),
+        dataType: "json",
+        success: function (response) {
+          $(".mute-comments").attr("data-muted", !is_muted);
+          $(".toggleMute").prop("disabled", false);
 
-        window.location = "/";
-      },
-    });
+          window.location = "/";
+        },
+      });
+    }
   });
 });
 
