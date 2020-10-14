@@ -11,7 +11,7 @@ class Config:
     if os.environ.get('SECRET_KEY'):
         SECRET_KEY = os.environ.get('SECRET_KEY')
     else:
-        SECRET_KEY = 'SECRET_KEY_ENV_VAR_NOT_SET'
+        SECRET_KEY = 'SECRET_KEY_ENV_VAR_NOT_SET_BRO'
         print('SECRET KEY ENV VAR NOT SET! SHOULD NOT SEE IN PRODUCTION')
 
     RETINAD_API_URL = "https://www.retinad.com/api/account/login"
