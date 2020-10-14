@@ -94,7 +94,8 @@ def verification_sms_view():
 
     try:
         last_digit = CurrentInstaLive.get_last_digit_phone()
-    except:
+    except Exception as e:
+        print(e)
         flash('Please Log In')
         return redirect(url_for('base.login_route'))
     return render_template('pages/verification.html',last_digit=last_digit)
