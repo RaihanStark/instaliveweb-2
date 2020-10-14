@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session, flash
 from InstaLiveCLI import InstaLiveCLI
 import json
-from app.utils import start_broadcast, stop_broadcast
+from app.utils import start_broadcast, stop_broadcast, verified_retinad
 from .forms import LoginUserForm
 
 base = Blueprint('base', __name__)
@@ -15,7 +15,6 @@ def login_route():
         settings = session['settings']
         print('got settings')
         return redirect(url_for('base.info_route'))
-
     except:
         return render_template('pages/login.html', form=form)
 
@@ -52,29 +51,34 @@ def logout_handle():
 
 @base.route('/login', methods=['POST'])
 def login_handle():
-    global login
-    login = InstaLiveCLI(username=request.form['username'],password=request.form['password'])
-    print('> Login to Instagram Server')
-    login_status = login.login()
-    session['comments_muted'] = False
-    if login_status:
-        print('- Login Success')
+    # Check to retinad first
+    if verified_retinad(request.form['username']):
+        global login
+        login = InstaLiveCLI(username=request.form['username'],password=request.form['password'])
+        print('> Login to Instagram Server')
+        login_status = login.login()
+        session['comments_muted'] = False
+        if login_status:
+            print('- Login Success')
 
-        print('> Creating Broadcast')
-        login.create_broadcast()
+            print('> Creating Broadcast')
+            login.create_broadcast()
 
-        print('> Saving Cookies')
+            print('> Saving Cookies')
 
-        # Init Session
-        session['settings'] = login.settings
+            # Init Session
+            session['settings'] = login.settings
 
-        return redirect(url_for('base.info_route'))
+            return redirect(url_for('base.info_route'))
 
-    if login.two_factor_required:
-        session['settings'] = login.settings
-        return redirect(url_for('base.verification_sms_view'))
-    flash('Username or Password incorrect!')
+        if login.two_factor_required:
+            session['settings'] = login.settings
+            return redirect(url_for('base.verification_sms_view'))
+        flash('Username or Password incorrect!')
 
+        return redirect(url_for('base.login_route'))
+    
+    flash('Username is not valid from RETINAD server!')
     return redirect(url_for('base.login_route'))
 
 @base.route('/verification')

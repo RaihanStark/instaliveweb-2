@@ -1,7 +1,9 @@
 import pickle
 from flask import session
 from InstaLiveCLI import InstaLiveCLI
+import requests
 
+from config import Config
 def start_broadcast():
     ig = InstaLiveCLI(auth=session['settings'])
     print(session['settings'])
@@ -48,3 +50,7 @@ def send_verification(code):
     ig = InstaLiveCLI(auth=session['settings'])
     print(session['settings'])
     return ig.two_factor(code)
+
+def verified_retinad(username):
+    response = requests.get(Config.RETINAD_API_URL).json()
+    return response['username'] == username
