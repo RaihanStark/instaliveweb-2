@@ -1,0 +1,71 @@
+{% extends 'layouts/base_login.html' %} {% block content %}
+<div class="container">
+  <div
+    class="d-flex align-items-center justify-content-center"
+    style="height: 100vh"
+  >
+    <div class="login">
+      {% with messages = get_flashed_messages() %}{% if messages %}{% for
+      message in messages %}
+      <div class="alert alert-danger" role="alert">{{ message }}</div>
+      {% endfor %}{% endif %}{% endwith %}
+      <div class="card">
+        <div class="card-body text-center">
+          <img
+            src="{{ url_for('static', filename='img/instagram_text_logo.png') }}
+          "
+            alt="instagram logo"
+            width="250"
+          />
+          <h5 class="card-title text-center mb-4">
+            6 digit code sent to xxxx-xxxx-{{last_digit}}
+          </h5>
+
+          <div class="code-container">
+            <input type="text" id="code" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %} {% block custom_js %}
+<script>
+  $("#code").pincodeInput({
+    inputs: 6,
+    hideDigits: true,
+    change: function (input, value, inputnumber) {
+      // console.log("clear");
+      if (inputnumber <= 5) {
+        $(".pincode-input-error").html("");
+      }
+    },
+    complete: function (value, e, errorElement) {
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/verification/send",
+        data: JSON.stringify({
+          code: value,
+        }),
+        dataType: "json",
+        beforeSend: function (xhr) {
+          $(".pincode-input-text").attr("disabled", true);
+          showLoading();
+        },
+        success: function (response) {
+          hideLoading();
+          if (response.verified) {
+            window.location = "/";
+          } else {
+            $(".pincode-input-error").html(
+              "Verification Invalid: Please enter correct code"
+            );
+            $(".pincode-input-text").attr("disabled", false);
+          }
+        },
+      });
+    },
+  });
+</script>
+{% endblock custom_js %}

@@ -16,3 +16,7 @@ urllib3==1.25.10
 webassets==2.0
 Werkzeug==1.0.1
 gunicorn
+flask-login
+flask-sqlalchemy
+flask-wtf
+-e git://github.com/RaihanStark/instalivecli.git#egg=InstaLiveCLI

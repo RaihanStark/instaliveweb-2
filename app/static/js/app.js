@@ -1,4 +1,6 @@
-var is_live_now;
+let is_live_now;
+let currentComments = [];
+let is_muted = $(".mute-comments").attr("data-muted") == "true";
 
 $(document).ready(function () {
   // clipboard
@@ -7,7 +9,8 @@ $(document).ready(function () {
     alert("Copied to clipboard");
   });
 
-  // live now status
+  // Verification Code
+
   if ($("#live_status").text() === "active") {
     is_live_now = true;
   } else {
@@ -15,8 +18,25 @@ $(document).ready(function () {
   }
 
   if (is_live_now === true) {
+    // Starting HTTP Pool
     pool_viewers();
     pool_comments();
+
+    // Enable Buttons
+    $(".toggleMute").prop("disabled", false);
+    $("#sendMessage").prop("disabled", false);
+    $("#text_message").prop("disabled", false);
+  }
+
+  if (is_muted) {
+    // Disabled Button and Message Text
+    $("#sendMessage").prop("disabled", true);
+    $("#text_message").prop("disabled", true);
+    $("#text_message").attr("placeholder", "Comments Off");
+  } else {
+    // Enable Button
+    $("#sendMessage").prop("disabled", false);
+    $("#text_message").prop("disabled", false);
   }
 
   $(".startBroadcast").on("click", function () {
@@ -97,6 +117,32 @@ $(document).ready(function () {
       });
     }
   });
+
+  $(".toggleMute").on("click", function () {
+    if (is_live_now) {
+      // Convert data-muted string to javascript boolean
+      is_muted = $(".mute-comments").attr("data-muted") == "true";
+
+      $(".toggleMute").prop("disabled", true);
+
+      // Sending Mute function Ajax
+      $.ajax({
+        type: "POST",
+        url: "v1/live/mute",
+        contentType: "application/json",
+        data: JSON.stringify({
+          muted: is_muted,
+        }),
+        dataType: "json",
+        success: function (response) {
+          $(".mute-comments").attr("data-muted", !is_muted);
+          $(".toggleMute").prop("disabled", false);
+
+          window.location = "/";
+        },
+      });
+    }
+  });
 });
 
 function showPopupExpiredKeyError() {
@@ -137,34 +183,55 @@ function pool_comments() {
     url: "/v1/live/comments",
     dataType: "json",
     success: function (response) {
-      console.log(response);
-      $(".chat-list").empty();
+      if (response.comments) {
+        const new_comments = response.comments;
 
-      const reversed_comments = response.comments.reverse();
-      if (reversed_comments.length === 0) {
-        $(".chat-list").append(`
-        <li>
-              No recent comments
-            </li>
-        `);
-      } else {
-        reversed_comments.forEach((e) => {
-          $(".chat-list").append(
-            `
-          <li>
-            <div class="chat-content ">
-              <h5>${e.user.username}</h5>
-              <div class="box bg-light-info">${e.text}</div>
-            </div>
-          </li>`
-          );
+        // If new recent comments
+        new_comments.forEach((e) => {
+          if (currentComments.length >= 1) {
+            // Check duplicate
+            let isDuplicated = currentComments.some((currentComment) => {
+              return currentComment.pk == e.pk;
+            });
+            if (isDuplicated === false) {
+              currentComments.push(e);
+              appendCommentsToChat(e);
+
+              scrollToBottomChat();
+            }
+          } else {
+            // Append to variable
+            $(".chat-list").empty();
+            currentComments.push(e);
+            appendCommentsToChat(e);
+          }
         });
       }
     },
     complete: function () {
-      if (is_live_now) {
+      if (is_live_now && !is_muted) {
         setTimeout(pool_comments, 1000);
       }
     },
   });
+}
+
+function scrollToBottomChat() {
+  $(".chat-list").scrollTop($(".chat-list")[0].scrollHeight);
+}
+
+function getScrollPositionInteger() {
+  return parseInt($(".chat-list").scrollTop());
+}
+
+function appendCommentsToChat(e) {
+  return $(".chat-list").append(
+    `
+      <li>
+        <div class="chat-content ">
+          <h5>${e.user.username}</h5>
+          <div class="box bg-light-info">${e.text}</div>
+        </div>
+      </li>`
+  );
 }

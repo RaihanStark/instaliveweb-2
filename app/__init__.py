@@ -1,11 +1,18 @@
 from flask import Flask
 import flask_assets
 from config import config as Config
-
-def create_app():
+import os
+def create_app(config):
     app = Flask(__name__)
-    app.config.from_object(Config['development'])
+    config_name =  config
+    
+    if not isinstance(config, str):
+        config_name = os.getenv('FLASK_ENV', 'development')
 
+    app.config.from_object(Config[config_name])
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    
+    Config[config_name].init_app(app)
     # Flask-Assets Bundler
     from .assets import bundles
     assets = flask_assets.Environment()

@@ -2,14 +2,12 @@
 <div class="container">
   <div
     class="d-flex align-items-center justify-content-center"
-    style="height: 100vh;"
+    style="height: 100vh"
   >
     <div class="login">
       {% with messages = get_flashed_messages() %}{% if messages %}{% for
       message in messages %}
-      <div class="alert alert-danger" role="alert">
-        {{ message }}
-      </div>
+      <div class="alert alert-danger" role="alert">{{ message }}</div>
       {% endfor %}{% endif %}{% endwith %}
       <div class="card">
         <div class="card-body text-center">
@@ -21,31 +19,28 @@
           />
           <h5 class="card-title text-center mb-4">Instagram Live</h5>
           <form action="/login" method="post">
+            {{ form.hidden_tag() }}
             <div class="form-group">
-              <input
-                type="text"
-                class="form-control"
-                id="inputUsername"
-                name="username"
-                placeholder="Username"
-              />
+              {{
+              form.username(class="form-control",id="InputUsername",placeholder="Username")
+              }}
             </div>
             <div class="form-group">
-              <input
-                type="password"
-                class="form-control"
-                id="inputPassword"
-                name="password"
-                placeholder="Password"
-              />
+              {{
+              form.password(class="form-control",id="inputPassword",placeholder="Password")
+              }}
             </div>
-            <button type="submit" class="btn btn-primary btn-block">
-              Login
-            </button>
+            {{form.submit(class="btn btn-primary btn-block")}}
           </form>
         </div>
       </div>
     </div>
   </div>
 </div>
-{% endblock content %}
+{% endblock content %} {% block custom_js %}
+<script>
+  $("form").submit(function () {
+    $(this).children("input[type=submit]").prop("disabled", true);
+  });
+</script>
+{% endblock custom_js %}
