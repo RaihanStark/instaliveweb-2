@@ -15,7 +15,7 @@ class Config:
         print('SECRET KEY ENV VAR NOT SET! SHOULD NOT SEE IN PRODUCTION')
 
     RETINAD_API_URL = "https://www.retinad.com/api/account/login"
-    RETINAD_API_SKIP = False
+    RETINAD_API_SKIP = True
 class DevelopmentConfig(Config):
 
     DEBUG = True

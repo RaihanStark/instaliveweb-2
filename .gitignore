@@ -203,3 +203,4 @@ dmypy.json
 
 pickle_data
 test_ig.py
+data-dev.sqlite
