@@ -19,4 +19,5 @@ gunicorn
 flask-login
 flask-sqlalchemy
 flask-wtf
+flask_migrate
 -e git://github.com/RaihanStark/instalivecli.git#egg=InstaLiveCLI
