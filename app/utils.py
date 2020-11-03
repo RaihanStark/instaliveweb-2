@@ -1,15 +1,19 @@
-import pickle
 from flask import session
 from InstaLiveCLI import InstaLiveCLI
 import requests
 
+from app.models import User
+from app import db
 from config import Config
+
+
 
 class CurrentInstaSession:
     def __init__(self):
         self.ig = None
     
     def load_settings(self):
+        print('load_settings')
         self.ig = InstaLiveCLI(auth=session['settings'])
 
     def login(self,username,password):
@@ -82,3 +86,18 @@ def verified_retinad(username):
 
 def get_session_setting():
     return session['settings']
+
+# Databases Stuff
+
+def add_user_to_db(username,session):
+    # if user doesn't exists
+    if check_user_exists() == False:
+        new_user = User(username=username,session=session)
+        db.session.add(new_user)
+        db.session.commit()
+        return True
+    else:
+        return False
+
+def check_user_exists(username):
+    return User.query.filter_by(username=username).first() != None
